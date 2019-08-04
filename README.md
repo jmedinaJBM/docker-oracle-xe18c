@@ -8,6 +8,7 @@
 - [II. Requisitos](#ii-requisitos)
 - [III. Consideraciones y Pre-Configuración](#iii-consideraciones-y-pre-configuración)
 - [IV. Procedimiento](#iv-procedimiento)
+- [V. Referencias](#v-referencias)
 
 
 ## I. Objetivo
@@ -237,6 +238,11 @@ $ docker run --name=oracledb-18cxe -h oracle18cxe -p 5500:5500 -p 1521:1521 -v /
            ```
                   $ /etc/init.d/oracle-xe-18c restart
            ```
+## V. Referencias
+- [How to install Oracle Database 18c XE on Linux](https://geraldonit.com/2018/10/23/how-to-install-oracle-database-18c-xe-on-linux/)
+- [Oracle Database 18c Express Edition (XE) RPM Installation On Oracle Linux 6 (OL6) and 7 (OL7)](https://oracle-base.com/articles/18c/oracle-db-18c-xe-rpm-installation-on-oracle-linux-6-and-7)
+- [Oracle Database XE Downloads](https://www.oracle.com/technetwork/database/database-technologies/express-edition/downloads/index.html)
+- [Docker build for Oracle Database Express Edition (XE)](https://github.com/fuzziebrain/docker-oracle-xe)
 
 [license img]:https://img.shields.io/badge/License-MIT-green.svg
 [license]:https://github.com/jmedinaJBM/docker-oracle-xe18c/images/LICENSE
