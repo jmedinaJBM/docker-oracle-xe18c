@@ -1,0 +1,19 @@
+FROM oracledb/temp-linux7:18cXE
+	    LABEL MAINTAINER="Jairo Medina <medina.jairo.b@gmail.com>"
+	    
+ENV \
+  RUN_FILE=runOracle.sh \
+  SHUTDOWN_FILE=shutdownDb.sh \
+  CHECK_DB_FILE=checkDBStatus.sh
+
+# 1521: Oracle listener
+EXPOSE 1521/tcp
+# 5500: Oracle Enterprise Manager (EM) Express listener.
+EXPOSE 5500/tcp
+
+COPY ./scripts/*.sh ${ORACLE_BASE}/scripts/
+
+HEALTHCHECK --interval=1m --start-period=2m --retries=10 \
+CMD "$ORACLE_BASE/scripts/$CHECK_DB_FILE"
+
+CMD exec ${ORACLE_BASE}/scripts/${RUN_FILE}

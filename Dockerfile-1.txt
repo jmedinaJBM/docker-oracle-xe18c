@@ -1,0 +1,40 @@
+FROM oraclelinux:7.6
+LABEL MAINTAINER="Jairo Medina <medina.jairo.b@gmail.com>"
+
+ENV \
+	ORACLE_BASE=/opt/oracle \
+	ORACLE_DOCKER_INSTALL=true \
+	# DB defaults. Copy from oracle instalation scripts /etc/init.d/oracle-xe-18c
+	ORACLE_HOME=${ORACLE_BASE}/product/18c/dbhomeXE \
+	ORACLE_SID=XE \
+	TEMPLATE_NAME=XE_Database.dbc \
+	PDB_NAME=XEPDB1 \
+	LISTENER_NAME=LISTENER \
+	NUMBER_OF_PDBS=1 \
+	CREATE_AS_CDB=true \
+	# General exports and vars 
+	PATH=$ORACLE_HOME/bin:$PATH \
+	LSNR=$ORACLE_HOME/bin/lsnrctl \
+	SQLPLUS=$ORACLE_HOME/bin/sqlplus \
+	NETCA=$ORACLE_HOME/bin/netca \
+	DBCA=$ORACLE_HOME/bin/dbca \
+	ORACLE_OWNER=oracle \
+	RETVAL=0 \
+	CONFIG_NAME="oracle-xe-18c.conf" \
+	CONFIGURATION="/etc/sysconfig/$CONFIG_NAME" \
+	ORACLE_HOME_NAME="OraHomeXE" \
+	MINIMUM_MEMORY=1048576 \
+	MAXIMUM_MEMORY=2097152
+	MINIMUM_MEMORY_STR="1GB" \
+	MINIMUM_SPACE=4718592 \
+	MINIMUM_SPACE_STR="4.5GB" \
+	HOSTNAME_CMD="/bin/hostname" \
+	MKDIR_CMD="/bin/mkdir" 
+
+VOLUME [ "/oracle_product" ]
+VOLUME [ "${ORACLE_BASE}/oradata" ]
+
+RUN chown oracle:oinstall /opt/oracle
+RUN chwon oracle:oinstall /opt/oracle/oradata
+
+CMD exec /bin/bash
