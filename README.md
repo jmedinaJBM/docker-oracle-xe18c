@@ -62,7 +62,7 @@ Montar una Base de Datos Oracle18c XE en un Contenedor Oracle-Linux7
             $ docker pull oraclelinux:7.6
       ```
 2. Crear imagen **oracledb/base-linux7:18cXE** con la Imagen base **oraclelinux:7.6**
-      - 2.1. Crear el Dockerfile a partir del archivo **Dockerfile-1.txt **
+      - 2.1. Crear el Dockerfile a partir del archivo **Dockerfile-1.txt**
       ```
             $ cd /docker/oracle_product
             $ cp ./docker-oracle-xe18c/Dockerfile-1.txt ./Dockerfile
