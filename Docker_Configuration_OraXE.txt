@@ -24,12 +24,12 @@ II-Consideraciones y Pre-Configuración:
 	4-	Cambiar permisos a la carpeta /docker
 			$ su -
 			$ chmod 777 /docker
-	4-	Crea las siguientes carpetas dentro de /docker/
+	5-	Crea las siguientes carpetas dentro de /docker/
 			$ cd /docker
 			$ mkdir oracle_product
 			$ mkdir ./oracle_product/18cxe
 			$ mkdir ./oracle_product/18cxe/oradata
-	5-	La carpeta de trabajo por defecto es /docker/oracle_product para efectos de esta guía.
+	6-	La carpeta de trabajo por defecto es /docker/oracle_product para efectos de esta guía.
 
 III-Procedimiento:
 1-Decargas
@@ -79,8 +79,7 @@ III-Procedimiento:
 			file.x86_64 0:5.11-35.el7
 		      Complete!
 6-Crear una imagen "oracledb/software-linux7:18cXE" a partir del contenedor "oracledb-base"
-	*Esta imagen sirve de respaldo antes de configurar la instancia de la Base de Datos.
-	6.1- Ejecutar
+	*Esta imagen es un respaldo antes de configurar la instancia de la Base de Datos.
 		$ docker stop oracledb-base
 		$ docker commit -a "Jairo Medina <medina.jairo.b@gmail.com>" oracledb-base oracledb/software-linux7:18cXE
 7-Configuración de la Instancia de Base de Datos.
@@ -116,11 +115,12 @@ III-Procedimiento:
 		    $ docker exec -it -u oracle oracledb-base /bin/bash
 		    $ cd $ORACLE_HOME/bin
 		    $ ./sqlplus sys as sysdba
-		    $ sqlplus> ALTER USER sys IDENTIFIED BY Pa$$w0rd;
-		    $ sqlplus> ALTER USER system IDENTIFIED BY Pa$$word;
+				sqlplus> ALTER USER sys IDENTIFIED BY Pa$$w0rd;
+				sqlplus> ALTER USER system IDENTIFIED BY Pa$$word;
 		7.4.3-Activar Acceso remoto. (con la misma sesion anterior)
-		    $ sqlplus> exec dbms_xdb_config.setlistenerlocalaccess(false);
-		    $ sqlplus> exec dbms_xdb_config.setglobalportenabled(true);
+				sqlplus> exec dbms_xdb_config.setlistenerlocalaccess(false);
+				sqlplus> exec dbms_xdb_config.setglobalportenabled(true);
+				sqlplus> exit;
 		
 8-Crear imagen definitiva	
 	8.1-Iniciar el contenedor y crear la carpeta $ORACLE_BASE/scripts.
@@ -147,13 +147,13 @@ III-Procedimiento:
 	8.5-Crear el Dockerfile a partir del archivo Dockerfile-2.txt
 		$ cd /docker/oracle_product
 		$ cp ./docker-oracle-xe18c/Dockerfile-2.txt ./Dockerfile
-	8.6-Construir la imagen "oracledb/linux7:18cXE"
+	8.6-Construir la imagen definitiva "oracledb/linux7:18cXE"
 		$ su -
 		$ cd /docker/oracle_product
 		$ docker build --tag oracledb/linux7:18cXE ./
- 9-Crear contenedor "oracledb-18cxe" a partir de la imagen definitiva "oracledb/linux7:18cXE
+9-Crear contenedor "oracledb-18cxe" a partir de la imagen definitiva "oracledb/linux7:18cXE
 	$ docker run --name=oracledb-18cxe -h oracle18cxe -p 5500:5500 -p 1521:1521 -v /docker/oracle_product/18cxe/oradata:/opt/oracle/oradata -d oracledb/linux7:18cXE 
-10.1-Tareas de Post-Creación del contenedor
+10-Tareas de Post-Creación del contenedor
 	10.1-Configuracion del Listener
 	  *Es probable que los archivos listener.ora y tnsnames.ora no tenga el nombre de hos correcto.
 	    10.1.1-Contectar con el contenedor
