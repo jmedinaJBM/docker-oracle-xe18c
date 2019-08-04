@@ -13,6 +13,7 @@
 
 ## I. Objetivo
 Montar una Base de Datos Oracle18c XE en un Contenedor Oracle-Linux7
+<img src="images/Ilustracion.png" align="center" />
 
 ## II. Requisitos
 1. Tener instalado [Linux Centos7][centos7] en una máquina virtual.
