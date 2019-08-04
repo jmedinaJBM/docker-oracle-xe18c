@@ -7,7 +7,7 @@
 - [I. Objetivo](#i-objetivo)
 - [II. Requisitos](#ii-requisitos)
 - [III. Consideraciones y Pre-Configuración](#iii-consideraciones-y-pre-configuración)
-
+- [IV. Procedimiento](#iv-procedimiento)
 
 
 ## I. Objetivo
@@ -43,6 +43,125 @@ Montar una Base de Datos Oracle18c XE en un Contenedor Oracle-Linux7
       $ mkdir ./oracle_product/18cxe/oradata
       ```
 6. La carpeta de trabajo por defecto es /docker/oracle_product para efectos de esta guía.
+
+## IV. Procedimiento
+1. Decargas
+      - 1.1. Descargar de github este proyecto. Este va a crear una carpeta **docker-oracle-xe18c**
+      ```
+            $ cd /docker/oracle_product
+            $ git clone https://github.com/jmedinaJBM/docker-oracle-xe18c.git
+      ```
+      - 2.2. Descargar imagen base de **Oracle-Linux7**
+      ```
+            $ docker pull oraclelinux:7.6
+      ```
+2. Crear imagen **oracledb/base-linux7:18cXE** con la Imagen base **oraclelinux:7.6**
+      - 2.1. Crear el Dockerfile a partir del archivo **Dockerfile-1.txt **
+      ```
+            $ cd /docker/oracle_product
+            $ cp ./docker-oracle-xe18c/Dockerfile-1.txt ./Dockerfile
+      ```
+      - 2.2. Construir la imagen **oracledb/base-linux7:18cXE**
+      ```
+            $ su -
+            $ docker build --tag oracledb/base-linux7:18cXE ./
+      ```
+3. Crear el contenedor **oracledb-base** a partir de la imagen creada antes **oracledb/base-linux7:18cXE**
+      ```
+      $ docker run --name=oracledb-base -v /docker/oracle_product:/oracle_product -v /docker/oracle_product/18cxe/oradata:/opt/oracle/oradata -it -d oracledb/base-linux7:18cXE /bin/bash
+      ```
+4. Copiar el archivo RPM (**oracle-database-xe-18c-1.0-1.x86_64.rpm**) en la carpeta del host **/docker/oracle_product**
+5. Instalación del Software
+      - 5.1. Entrar al contenedor **oracledb-base**
+      ```
+            $ docker exec -it oracledb-base /bin/bash
+      ```
+      - 5.2. Comprueba variables de Ambiente y verifica la respuesta contra el archivo ***Dockerfile-1.txt***
+      ```
+            $ echo ${ORACLE_DOCKER_INSTALL}
+            $ echo ${ORACLE_HOME}
+            $ echo ${ORACLE_BASE}
+      ```
+      - 5.3. Cambiar permisos a la carpeta **/opt/oracle**
+      ```
+            $ chown oracle:oinstall /opt/oracle
+            $ chown oracle:oinstall /opt/oracle/oradata
+      ```
+      - 5.4. Cambiarse a la carpeta **oracle_product**
+      ```
+            $ cd /oracle_product
+      ```
+      - 5.5. Ejecutar Instalación
+      ```
+            $ yum install -y oracle-database-preinstall-18c
+                  failed to link /usr/share/man/man1/ksh.1.gz -> /etc/alternatives/ksh-man: No such file or directory
+                  Complete!
+            
+            $ yum localinstall -y oracle-database-xe-18c-1.0-1.x86_64.rpm
+                  [INFO] Executing post installation scripts...
+                  [INFO] Oracle home installed successfully and ready to be configured.
+                        To configure Oracle Database XE, optionally modify the parameters 
+                        in '/etc/sysconfig/oracle-xe-18c.conf' and then execute '/etc/init.d/oracle-xe-18c configure' as root.
+                  Installed:
+                  oracle-database-xe-18c.x86_64 0:1.0-1 
+                  Dependency Installed:
+                  file.x86_64 0:5.11-35.el7
+                  Complete!
+      ```
+6. Crear una imagen **oracledb/software-linux7:18cXE** a partir del contenedor **oracledb-base**. Esta imagen es un respaldo antes de configurar la instancia de la Base de Datos.
+      ```
+      $ docker stop oracledb-base
+      $ docker commit -a "Jairo Medina <medina.jairo.b@gmail.com>" oracledb-base oracledb/software-linux7:18cXE
+      ```
+7. Configuración de la Instancia de Base de Datos.
+      - 7.1. Iniciar el contenedor **oracledb-base**
+      ```
+            $ docker start oracledb-base
+      ```
+      - 7.2. Entrar al contenedor
+      ```
+            $ docker exec -it oracledb-base /bin/bash
+      ```
+      - 7.3. Ejecutar
+      ```
+            $ /etc/init.d/oracle-xe-18c configure
+            
+            Configuring Oracle Listener.
+            Listener configuration succeeded.
+            Configuring Oracle Database XE.
+            
+            100% complete
+            Database creation complete. For details check the logfiles at:
+            /opt/oracle/cfgtoollogs/dbca/XE.
+            Database Information:
+            Global Database Name:XE
+            System Identifier(SID):XE
+            Look at the log file "/opt/oracle/cfgtoollogs/dbca/XE/XE.log" for further details.
+            
+            Connect to Oracle Database using one of the connect strings:
+            Pluggable database: 1219a23a0c49/XEPDB1
+            Multitenant container database: 1219a23a0c49
+            Use https://localhost:5500/em to access Oracle Enterprise Manager for Oracle Database XE
+      ```
+      - 7.4. Tareas de Post-Instalación
+          * 7.4.1. Cambiar la clave del usuario oracle del contenedor.
+            ```
+                  $ passwd oracle
+            ```
+          * 7.4.2. Establecer la clave del usuario sys y system.
+          ```
+                  $ docker exec -it -u oracle oracledb-base /bin/bash
+                  $ cd $ORACLE_HOME/bin
+                  $ ./sqlplus sys as sysdba
+                        sqlplus> ALTER USER sys IDENTIFIED BY Pa$$w0rd;
+                        sqlplus> ALTER USER system IDENTIFIED BY Pa$$word;
+          ```
+          * 7.4.4. Activar Acceso remoto. (con la misma sesion anterior)
+          ```
+                        sqlplus> exec dbms_xdb_config.setlistenerlocalaccess(false);
+                        sqlplus> exec dbms_xdb_config.setglobalportenabled(true);
+                        sqlplus> exit;
+          ```
 
 [license img]:https://img.shields.io/badge/License-MIT-green.svg
 [license]:https://github.com/jmedinaJBM/docker-oracle-xe18c/images/LICENSE
