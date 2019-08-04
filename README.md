@@ -156,12 +156,87 @@ Montar una Base de Datos Oracle18c XE en un Contenedor Oracle-Linux7
                         sqlplus> ALTER USER sys IDENTIFIED BY Pa$$w0rd;
                         sqlplus> ALTER USER system IDENTIFIED BY Pa$$word;
           ```
-          * 7.4.4. Activar Acceso remoto. (con la misma sesion anterior)
+          * 7.4.3. Activar Acceso remoto. (con la misma sesion anterior)
           ```
                         sqlplus> exec dbms_xdb_config.setlistenerlocalaccess(false);
                         sqlplus> exec dbms_xdb_config.setglobalportenabled(true);
                         sqlplus> exit;
           ```
+
+8. Crear imagen definitiva
+      - 8.1. Iniciar el contenedor y crear la carpeta **$ORACLE_BASE/scripts**
+      ```
+            $ docker start oracledb-base
+            $ docker exec -it oracledb-base /bin/bash
+            $ cd $ORACLE_BASE
+            $ mkdir scripts
+            $ chown oracle:oinstall scripts
+            $ exit
+      ```
+      - 8.2. Crear una imagen **oracledb/temp-linux7:18cXE** a partir del contenedor **oracledb-base**. Esta imagen contiene la instancia de la Base de Datos Oracle 18c XE configurada.
+           * 8.2.1. Detener la instancia Oracle y el contenedor
+           ```
+                  $ docker exec -it /oracledb-base /bin/bash
+                  $ /etc/init.d/oracle-xe-18c stop
+                  $ exit
+                  $ docker stop oracledb-base
+           ```
+           * 8.2.2 Crear la imagen
+           ```
+                  $ docker commit -a "Jairo Medina <medina.jairo.b@gmail.com>" oracledb-base oracledb/temp-linux7:18cXE
+           ```
+     - 8.3. Crear carpeta **/docker/oracle_product/scripts**
+     ```
+            $ mkdir /docker/oracle_product/scripts
+     ```
+     - 8.4. Copiar archivos scripts dentro **/docker/oracle_product/scripts**
+     ```
+            $ cd /docker/oracle_product
+            $ cp ./docker-oracle-xe18c/scripts/* ./scripts/
+     ```
+     - 8.5. Crear el **Dockerfile** a partir del archivo **Dockerfile-2.txt**
+     ```
+            $ cd /docker/oracle_product
+            $ cp ./docker-oracle-xe18c/Dockerfile-2.txt ./Dockerfile
+     ```
+     - 8.6. Construir la imagen definitiva **oracledb/linux7:18cXE**
+     ```
+            $ su -
+            $ cd /docker/oracle_product
+            $ docker build --tag oracledb/linux7:18cXE ./
+     ```
+9. Crear contenedor **oracledb-18cxe** a partir de la imagen definitiva **oracledb/linux7:18cXE**
+```
+$ docker run --name=oracledb-18cxe -h oracle18cxe -p 5500:5500 -p 1521:1521 -v /docker/oracle_product/18cxe/oradata:/opt/oracle/oradata -d oracledb/linux7:18cXE 
+```
+10. Tareas de Post-Creación del contenedor
+      - 10.1. Configuracion del Listener
+            Es probable que los archivos listener.ora y tnsnames.ora no tenga el nombre de hos correcto.
+           * 10.1.1. Contectar con el contenedor
+           ````
+                  $ docker exec -it oracledb-18cxe /bin/bash
+           ````
+           * 10.1.2. Identificar el nombre del host
+           ```
+                  $ /bin/hostname
+           ```
+           * 10.1.3. Revisa los archivos **listener.ora** y **tnsnames.ora** en **$ORACLE_HOME/network/admin**
+           ```
+                  $ cd $ORACLE_HOME/network/admin
+                  $ more listener.ora
+                  $ more tnsnames.ora
+           ```
+           * 10.1.4. Modifica los archivos si el ***hostname*** no coincide.
+           ```
+                  $ su oracle
+                  $ vi listener.ora
+                  $ vi tnsnames.ora
+                  $ exit
+           ```
+           * 10.1.5. Reinicia la base de datos
+           ```
+                  $ /etc/init.d/oracle-xe-18c restart
+           ```
 
 [license img]:https://img.shields.io/badge/License-MIT-green.svg
 [license]:https://github.com/jmedinaJBM/docker-oracle-xe18c/images/LICENSE
