@@ -32,6 +32,10 @@ Montar una Base de Datos Oracle18c XE en un Contenedor Oracle-Linux7
 1. Tu máquina virtual Linux Centos7 es considerada la máquina host para efectos de esta guía.
 2. Tu usuario Linux Centos 7 es el que se utiliza por defecto en esta guía a menos que se indique lo contrario.
 3. Desactiva el firewall en Linux Centos 7.
+      ```
+      $ systemctl stop firewalld
+      $ systemctl disable firewalld
+      ```
 4. Cambiar permisos a la carpeta **/docker**
       ```
       $ su -
