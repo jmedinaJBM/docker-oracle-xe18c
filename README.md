@@ -217,7 +217,7 @@ $ docker run --name=oracledb-18cxe -h oracle18cxe -p 5500:5500 -p 1521:1521 -v /
 ```
 10. Tareas de Post-Creación del contenedor
       - 10.1. Configuracion del Listener
-            Es probable que los archivos listener.ora y tnsnames.ora no tenga el nombre de hos correcto.
+            Es probable que los archivos **listener.ora** y **tnsnames.ora** no tenga el nombre de host correcto.
            * 10.1.1. Contectar con el contenedor
            ````
                   $ docker exec -it oracledb-18cxe /bin/bash
