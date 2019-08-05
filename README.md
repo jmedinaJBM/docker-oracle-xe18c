@@ -95,19 +95,18 @@ Montar una Base de Datos Oracle18c XE en un Contenedor Oracle-Linux7
       ```
       - 5.4. Ejecutar Instalación
            * 5.4.1. Insttalar **oracle-database-preinstall-18c**
-            ```
+      ```
             $ yum install -y oracle-database-preinstall-18c
                   failed to link /usr/share/man/man1/ksh.1.gz -> /etc/alternatives/ksh-man: No such file or directory
-                  Complete!
-            ```
-            
-            * 5.4.2. Cambiar permisos a la carpeta **/opt/oracle**
-            ```
-                  $ chown oracle:oinstall /opt/oracle
-                  chown oracle:oinstall /opt/oracle/oradata
-            ```
-            * 5.4.3. Instalar **oracle-database-xe-18c-1.0-1.x86_64.rpm**
-            ```
+                  Complete! 
+      ```
+           * 5.4.2. Cambiar permisos a la carpeta **opt/oracle**
+      ```
+            $ chown oracle:oinstall /opt/oracle
+            $ chown oracle:oinstall /opt/oracle/oradata
+      ```
+           * 5.4.3. Instalar **oracle-database-xe-18c-1.0-1.x86_64.rpm**
+      ```
             $ yum localinstall -y oracle-database-xe-18c-1.0-1.x86_64.rpm
                   [INFO] Executing post installation scripts...
                   [INFO] Oracle home installed successfully and ready to be configured.
