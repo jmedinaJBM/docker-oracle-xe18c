@@ -5,7 +5,7 @@ ENV \
 	ORACLE_BASE=/opt/oracle \
 	ORACLE_DOCKER_INSTALL=true \
 	# DB defaults. Copy from oracle instalation scripts /etc/init.d/oracle-xe-18c
-	ORACLE_HOME=${ORACLE_BASE}/product/18c/dbhomeXE \
+	ORACLE_HOME=/opt/oracle/product/18c/dbhomeXE \
 	ORACLE_SID=XE \
 	TEMPLATE_NAME=XE_Database.dbc \
 	PDB_NAME=XEPDB1 \
