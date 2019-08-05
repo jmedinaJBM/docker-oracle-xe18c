@@ -169,9 +169,9 @@ Montar una Base de Datos Oracle18c XE en un Contenedor Oracle-Linux7
           ```
           * 7.4.3. Activar Acceso remoto. (con la misma sesion anterior)
           ```
-                        sqlplus> exec dbms_xdb_config.setlistenerlocalaccess(false);
-                        sqlplus> exec dbms_xdb_config.setglobalportenabled(true);
-                        sqlplus> exit;
+                        SQL> exec dbms_xdb_config.setlistenerlocalaccess(false);
+                        SQL> exec dbms_xdb_config.setglobalportenabled(true);
+                        SQL> exit;
           ```
 
 8. Crear imagen definitiva
