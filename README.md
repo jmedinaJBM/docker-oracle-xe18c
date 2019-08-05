@@ -25,7 +25,7 @@ Montar una Base de Datos Oracle18c XE en un Contenedor Oracle-Linux7
       ```
 4. Haber descargado el archivo de instalación en format RPM [oracle-database-xe-18c-1.0-1.x86_64.rpm][oracle].
 5. Espacio de almacenamiento requerido
-      - 5.1- Al menos 8GB (Oracle recomienda 7680 MB) de espacio libre en **/opt** ; esta carpeta se ubica en el root folder **`/`** en la instalación    por defecto de Linux Centos7.
+      - 5.1- Al menos 15GB (Oracle recomienda 7680 MB) de espacio libre en **/opt** ; esta carpeta se ubica en el root folder **`/`** en la instalación    por defecto de Linux Centos7.
       - 5.2- Un Virtaul Disk de 20GB en el punto de montaje **/docker** ; montarlo después de haber instalado Linux Centos7 para evitar confusión.
 6. RAM de la Máquina Virtual Linux Centos7 con 4GB.   
 
