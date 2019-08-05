@@ -171,7 +171,6 @@ Montar una Base de Datos Oracle18c XE en un Contenedor Oracle-Linux7
           ```
                         SQL> exec dbms_xdb_config.setlistenerlocalaccess(false);
                         SQL> exec dbms_xdb_config.setglobalportenabled(true);
-                        SQL> shutdown immediate
                         SQL> exit;
           ```
 
