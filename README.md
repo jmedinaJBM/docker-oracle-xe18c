@@ -248,6 +248,11 @@ $ docker run --name=oracledb-18cxe -h oracle18cxe -p 5500:5500 -p 1521:1521 -v /
            ```
                   $ /etc/init.d/oracle-xe-18c restart
            ```
+           * 10.1.6. Conecta con la base de datos
+                  Entra al navegador web desde tu máquina física y accede a de forma remota **https://virtual-machine:5500/em**
+                  Reemplaza virtual-machine por el nombre de tu máquina virtual donde has instalado Linux Centos7. 
+                  Tu base de datos ya está funcionando.
+           
 ## V. Referencias
 - [How to install Oracle Database 18c XE on Linux](https://geraldonit.com/2018/10/23/how-to-install-oracle-database-18c-xe-on-linux/)
 - [Oracle Database 18c Express Edition (XE) RPM Installation On Oracle Linux 6 (OL6) and 7 (OL7)](https://oracle-base.com/articles/18c/oracle-db-18c-xe-rpm-installation-on-oracle-linux-6-and-7)
