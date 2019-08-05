@@ -163,8 +163,9 @@ Montar una Base de Datos Oracle18c XE en un Contenedor Oracle-Linux7
                   $ docker exec -it -u oracle oracledb-base /bin/bash
                   $ cd $ORACLE_HOME/bin
                   $ ./sqlplus sys as sysdba
-                        sqlplus> ALTER USER sys IDENTIFIED BY Pa$$w0rd;
-                        sqlplus> ALTER USER system IDENTIFIED BY Pa$$word;
+                        SQL> startup
+                        SQL> ALTER USER sys IDENTIFIED BY Pa$$w0rd;
+                        SQL> ALTER USER system IDENTIFIED BY Pa$$word;
           ```
           * 7.4.3. Activar Acceso remoto. (con la misma sesion anterior)
           ```
