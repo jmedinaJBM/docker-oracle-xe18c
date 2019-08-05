@@ -89,16 +89,11 @@ Montar una Base de Datos Oracle18c XE en un Contenedor Oracle-Linux7
             $ echo ${ORACLE_HOME}
             $ echo ${ORACLE_BASE}
       ```
-      - 5.3. Cambiar permisos a la carpeta **/opt/oracle**
-      ```
-            $ chown oracle:oinstall /opt/oracle
-            $ chown oracle:oinstall /opt/oracle/oradata
-      ```
-      - 5.4. Cambiarse a la carpeta **oracle_product**
+      - 5.3. Cambiarse a la carpeta **oracle_product**
       ```
             $ cd /oracle_product
       ```
-      - 5.5. Ejecutar Instalación
+      - 5.4. Ejecutar Instalación
       ```
             $ yum install -y oracle-database-preinstall-18c
                   failed to link /usr/share/man/man1/ksh.1.gz -> /etc/alternatives/ksh-man: No such file or directory
@@ -114,6 +109,11 @@ Montar una Base de Datos Oracle18c XE en un Contenedor Oracle-Linux7
                   Dependency Installed:
                   file.x86_64 0:5.11-35.el7
                   Complete!
+      ```
+      - 5.5. Cambiar permisos a la carpeta **/opt/oracle**
+      ```
+            $ chown oracle:oinstall /opt/oracle
+            $ chown oracle:oinstall /opt/oracle/oradata
       ```
 6. Crear una imagen **oracledb/software-linux7:18cXE** a partir del contenedor **oracledb-base**. Esta imagen es un respaldo antes de configurar la instancia de la Base de Datos.
       ```
