@@ -4,7 +4,8 @@ FROM oracledb/temp-linux7:18cXE
 ENV \
   RUN_FILE=runOracle.sh \
   SHUTDOWN_FILE=shutdownDb.sh \
-  CHECK_DB_FILE=checkDBStatus.sh
+  CHECK_DB_FILE=checkDBStatus.sh \
+  ORACLE_BASE=/opt/oracle
 
 # 1521: Oracle listener
 EXPOSE 1521/tcp
