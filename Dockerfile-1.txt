@@ -34,7 +34,4 @@ ENV \
 VOLUME [ "/oracle_product" ]
 VOLUME [ "${ORACLE_BASE}/oradata" ]
 
-RUN chown oracle:oinstall /opt/oracle
-RUN chwon oracle:oinstall /opt/oracle/oradata
-
 CMD exec /bin/bash
