@@ -13,6 +13,8 @@ EXPOSE 1521/tcp
 EXPOSE 5500/tcp
 
 COPY ./scripts/*.sh ${ORACLE_BASE}/scripts/
+RUN chown oracle:oinstall ${ORACLE_BASE}/scripts/*.sh
+RUN chmod +x ${ORACLE_BASE}/scripts/*.sh
 
 HEALTHCHECK --interval=1m --start-period=2m --retries=10 \
 CMD "$ORACLE_BASE/scripts/$CHECK_DB_FILE"
