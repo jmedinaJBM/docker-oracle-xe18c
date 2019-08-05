@@ -12,7 +12,7 @@ I-Requisitos:
 		Este archivo se llama oracle-database-xe-18c-1.0-1.x86_64.rpm
 		(https://www.oracle.com/technetwork/database/database-technologies/express-edition/downloads/index.html)
 	5.	Espacio de almacenamiento requerido
-		5.1-Al menos 8GB (Oracle recomienda 7680 MB) de espacio libre en /opt/
+		5.1-Al menos 15GB (Oracle recomienda 7680 MB) de espacio libre en /opt/
 			*En la instalación por defecto de Linux Centos7, esta carpeta se ubica en el root folder ( / ).
 		5.2-Un Virtaul Disk de 20GB en el punto de montaje /docker
 			*Este diso debes montarlo después de haber instalado Linux Centos7 para evitar confusión.
